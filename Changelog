@@ -1,0 +1,5 @@
+2009-08-15  David Cole  david.cole@back2adam.com
+
+	* lib/historical_date.rb: Created file. Created class variables and class function, parse_date.
+	
+
