@@ -1,3 +1,5 @@
+require 'date'
+
 class HistoricalDate
 
   @month_names = {
@@ -101,13 +103,13 @@ class HistoricalDate
     return '' if date == ''
 
     date_parts = {}
-    date_parts['original'] = date
-    date_parts['errors'] = []
-    date_parts['circa'] = false
-    date_parts['year'] = nil
-    date_parts['month'] = nil
-    date_parts['day'] = nil
-    date_parts['era'] = 'AD'
+    date_parts[:original] = date
+    date_parts[:errors] = []
+    date_parts[:circa] = false
+    date_parts[:year] = nil
+    date_parts[:month] = nil
+    date_parts[:day] = nil
+    date_parts[:era] = 'AD'
 
     date_in_parts = []
 
@@ -118,15 +120,15 @@ class HistoricalDate
     date_in_parts = date.split(date_separator)
     date_in_parts.delete_if { |d| d.to_s.empty? }
     if date_in_parts.first.match(Regexp.new("#{ @circa_words.join('|') }", true)) then
-      date_parts['circa'] = true
+      date_parts[:circa] = true
       date_in_parts.shift #delete_at(0)
     end
     if date_in_parts.last.match(Regexp.new("#{ @era_words.join('|') }", true)) then
-      date_parts['era'] = date_in_parts.pop.upcase.strip
+      date_parts[:era] = date_in_parts.pop.upcase.strip
     end
 
     date = date_in_parts.join('-')
-    date_parts['fixed'] = date
+    date_parts[:fixed] = date
 
     #- Takes care of YYYY
     if date =~ /^(\d{1,4})$/
@@ -171,53 +173,53 @@ class HistoricalDate
       year = $2 ? $2.to_i.to_s : nil
 
     else
-      date_parts['errors'] << 'Cannot parse date.'
+      date_parts[:errors] << 'Cannot parse date.'
     end
 
-    date_parts['year'] = year
-    date_parts['month'] = month
-    date_parts['day'] = day
+    date_parts[:year] = year.to_i
+    date_parts[:month] = month.to_i
+    date_parts[:day] = day.to_i
 
     #- Some error checking at this point
     if month.to_i > 13 then
-      date_parts['errors'] << 'Month cannot greater than 12.'
+      date_parts[:errors] << 'Month cannot greater than 12.'
     elsif month and day and day.to_i > @days_in_month[month.to_i] then
       unless month.to_i == 2 and year and Date.parse('1/1/' + year).leap? and day.to_i == 29 then
-        date_parts['errors'] << 'Too many days in this month.'
+        date_parts[:errors] << 'Too many days in this month.'
       end
     elsif month and month.to_i < 1 then
-      date_parts['errors'] << 'Month cannot be less than 1.'
+      date_parts[:errors] << 'Month cannot be less than 1.'
     elsif day and day.to_i < 1 then
-      date_parts['errors'] << 'Day cannot be less than 1.'
+      date_parts[:errors] << 'Day cannot be less than 1.'
     end
-    if date_parts['error'] then
+    if date_parts[:error] then
       return date_parts
     end
 
     month_name = @month_names[month.to_i]
-    date_parts['month_name'] = month_name
+    date_parts[:month_name] = month_name
 
     # ----------------------------------------------------------------------
 
-    show_era = ' ' + date_parts['era']
-    show_circa = date_parts['circa'] == true ? 'About ' : ''
+    show_era = ' ' + date_parts[:era]
+    show_circa = date_parts[:circa] == true ? 'About ' : ''
 
     if year and month and day then
-      date_parts['short'] = show_circa + month + '/' + day + '/' + year + show_era
-      date_parts['long'] = show_circa + month_name + ' ' + day + ', ' + year + show_era
-      date_parts['full'] = show_circa + Date.parse( date_parts['long'] ).strftime( '%A,' ) + Date.parse( day + ' ' + month_name + ' ' + year ).strftime( ' %B %-1d, %Y' ) + show_era
+      date_parts[:short] = show_circa + month + '/' + day + '/' + year + show_era
+      date_parts[:long] = show_circa + month_name + ' ' + day + ', ' + year + show_era
+      date_parts[:full] = show_circa + Date.parse( date_parts[:long] ).strftime( '%A,' ) + Date.parse( day + ' ' + month_name + ' ' + year ).strftime( ' %B %-1d, %Y' ) + show_era
     elsif year and month then
-      date_parts['short'] = show_circa + month + '/' + year + show_era
-      date_parts['long'] = show_circa + month_name + ', ' + year + show_era
-      date_parts['full'] = date_parts['long']
+      date_parts[:short] = show_circa + month + '/' + year + show_era
+      date_parts[:long] = show_circa + month_name + ', ' + year + show_era
+      date_parts[:full] = date_parts[:long]
     elsif month and day then
-      date_parts['short'] = show_circa + day + '-' + @month_abbreviations.keys[month.to_i]
-      date_parts['long'] = show_circa + day + ' ' + month_name
-      date_parts['full'] = date_parts['long']
+      date_parts[:short] = show_circa + day + '-' + @month_abbreviations.keys[month.to_i]
+      date_parts[:long] = show_circa + day + ' ' + month_name
+      date_parts[:full] = date_parts[:long]
     elsif year then
-      date_parts['short'] = show_circa + year + show_era
-      date_parts['long'] = date_parts['short']
-      date_parts['full'] = date_parts['long']
+      date_parts[:short] = show_circa + year + show_era
+      date_parts[:long] = date_parts[:short]
+      date_parts[:full] = date_parts[:long]
     end
 
     return date_parts
