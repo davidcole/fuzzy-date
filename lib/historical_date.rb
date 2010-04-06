@@ -176,9 +176,9 @@ class HistoricalDate
       date_parts[:errors] << 'Cannot parse date.'
     end
 
-    date_parts[:year] = year.to_i
-    date_parts[:month] = month.to_i
-    date_parts[:day] = day.to_i
+    date_parts[:year] = year ? year.to_i : nil
+    date_parts[:month] = month ? month.to_i : nil
+    date_parts[:day] = day ? day.to_i : nil
 
     #- Some error checking at this point
     if month.to_i > 13 then
