@@ -192,8 +192,10 @@ class HistoricalDate
     elsif day and day.to_i < 1 then
       date_parts[:errors] << 'Day cannot be less than 1.'
     end
-    if date_parts[:error] then
+    if date_parts[:errors].length > 0 then
       return date_parts
+    else
+      date_parts[:errors] = nil
     end
 
     month_name = @month_names[month.to_i]
