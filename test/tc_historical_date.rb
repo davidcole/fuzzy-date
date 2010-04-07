@@ -91,5 +91,35 @@ class HistoricalDateTest < Test::Unit::TestCase
     assert_equal( date, hd[ :original ] )
   end
 
+  def test_date_MM_DD_YYYY
+    date = '4/5/2010'
+    hd = HistoricalDate.parse_date( date )
+    assert_equal( '4-5-2010', hd[ :fixed ] )
+    assert_equal( 'April', hd[ :month_name ] )
+    assert_equal( false, hd[ :circa ] )
+    assert_equal( 4, hd[ :month ] )
+    assert_equal( 5, hd[ :day ] )
+    assert_equal( 2010, hd[ :year ] )
+    assert_equal( 'Monday, April 5, 2010 AD', hd[ :full ] )
+    assert_equal( '4/5/2010 AD', hd[ :short ] )
+    assert_equal( 'AD', hd[ :era ] )
+    assert_equal( 'April 5, 2010 AD', hd[ :long ] )
+    assert_equal( date, hd[ :original ] )
+    
+    date = '4/5/10'
+    hd = HistoricalDate.parse_date( date )
+    assert_equal( '4-5-10', hd[ :fixed ] )
+    assert_equal( 'April', hd[ :month_name ] )
+    assert_equal( false, hd[ :circa ] )
+    assert_equal( 4, hd[ :month ] )
+    assert_equal( 5, hd[ :day ] )
+    assert_equal( 10, hd[ :year ] )
+    assert_equal( 'Saturday, April 5, 0010 AD', hd[ :full ] )
+    assert_equal( '4/5/10 AD', hd[ :short ] )
+    assert_equal( 'AD', hd[ :era ] )
+    assert_equal( 'April 5, 10 AD', hd[ :long ] )
+    assert_equal( date, hd[ :original ] )
+  end
+
 end
 
