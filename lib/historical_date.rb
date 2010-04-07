@@ -104,7 +104,7 @@ class HistoricalDate
 
     date_parts = {}
     date_parts[:original] = date
-    date_parts[:errors] = []
+    #date_parts[:errors] = []
     date_parts[:circa] = false
     date_parts[:year] = nil
     date_parts[:month] = nil
@@ -173,7 +173,8 @@ class HistoricalDate
       year = $2 ? $2.to_i.to_s : nil
 
     else
-      date_parts[:errors] << 'Cannot parse date.'
+      #date_parts[:errors] << 'Cannot parse date.'
+      raise ArgumentError.new( 'Cannot parse date.' )
     end
 
     date_parts[:year] = year ? year.to_i : nil
@@ -182,21 +183,25 @@ class HistoricalDate
 
     #- Some error checking at this point
     if month.to_i > 13 then
-      date_parts[:errors] << 'Month cannot greater than 12.'
+      #date_parts[:errors] << 'Month cannot be greater than 12.'
+      raise ArgumentError.new( 'Month cannot be greater than 12.' )
     elsif month and day and day.to_i > @days_in_month[month.to_i] then
       unless month.to_i == 2 and year and Date.parse('1/1/' + year).leap? and day.to_i == 29 then
-        date_parts[:errors] << 'Too many days in this month.'
+        #date_parts[:errors] << 'Too many days in this month.'
+        raise ArgumentError.new( 'Too many days in this month.' )
       end
     elsif month and month.to_i < 1 then
-      date_parts[:errors] << 'Month cannot be less than 1.'
+      #date_parts[:errors] << 'Month cannot be less than 1.'
+      raise ArgumentError.new( 'Month cannot be less than 1.' )
     elsif day and day.to_i < 1 then
-      date_parts[:errors] << 'Day cannot be less than 1.'
+      #date_parts[:errors] << 'Day cannot be less than 1.'
+      raise ArgumentError.new( 'Day cannot be less than 1.' )
     end
-    if date_parts[:errors].length > 0 then
-      return date_parts
-    else
-      date_parts[:errors] = nil
-    end
+    #if date_parts[:errors].length > 0 then
+    #  return date_parts
+    #else
+    #  date_parts[:errors] = nil
+    #end
 
     month_name = @month_names[month.to_i]
     date_parts[:month_name] = month_name
