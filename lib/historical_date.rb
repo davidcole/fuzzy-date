@@ -141,6 +141,12 @@ class HistoricalDate
       month = $2 ? $2.to_i.to_s : nil
       day = $3 ? $3.to_i.to_s : nil
 
+    #- Takes care of DD-MM-YYYY
+    elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/ and is_euro
+      day = $1.to_i.to_s
+      month = $2.to_i.to_s
+      year = $3.to_i.to_s
+
     #- Takes care of MM-DD-YYYY
     elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/
       month = $1.to_i.to_s
