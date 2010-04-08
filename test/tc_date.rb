@@ -152,6 +152,24 @@ class DateTest < Test::Unit::TestCase
         :options => {
           :euro    => true
         }
+      },
+      '4/2010' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => nil,
+          :era        => 'AD',
+          :fixed      => '4-2010',
+          :full       => 'April, 2010 AD',
+          :long       => 'April, 2010 AD',
+          :month      => 4,
+          :month_name => 'April',
+          :original   => '4/2010',
+          :short      => '4/2010 AD',
+          :year       => 2010
+        },
+        :options => {
+          :euro    => true
+        }
       }
     }
   end
