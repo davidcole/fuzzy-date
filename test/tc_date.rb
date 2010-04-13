@@ -170,6 +170,24 @@ class DateTest < Test::Unit::TestCase
         :options => {
           :euro    => true
         }
+      },
+      '5 April' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 5,
+          :era        => 'AD',
+          :fixed      => '5-April',
+          :full       => '5 April',
+          :long       => '5 April',
+          :month      => 4,
+          :month_name => 'April',
+          :original   => '5 April',
+          :short      => '5-Apr',
+          :year       => nil
+        },
+        :options => {
+          :euro    => false
+        }
       }
     }
   end
