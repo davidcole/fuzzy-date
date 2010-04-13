@@ -161,19 +161,22 @@ class HistoricalDate
 
     #- Takes care of DD-MMM-YYYY and DD-MMM
     elsif date =~ /^(\d{1,2})(?:-(#{ @month_abbreviations.keys.join('|') }).*?(?:-(\d{1,4}))?)?$/i
-      month = @month_names.index(@month_abbreviations[$2.to_s.capitalize]).to_i.to_s
+      month_text = $2.to_s.capitalize
+      month = @month_names.index(@month_abbreviations[month_text]).to_i.to_s
       day = $1.to_i.to_s
       year = $3 ? $3.to_i.to_s : nil
 
     #- Takes care of MMM-DD-YYYY
     elsif date =~ /^(#{ @month_abbreviations.keys.join('|') }).*?-(\d{1,2})-(\d{1,4})$/i
-      month = @month_names.index(@month_abbreviations[$1.to_s.capitalize]).to_i.to_s
+      month_text = $1.to_s.capitalize
+      month = @month_names.index(@month_abbreviations[month_text]).to_i.to_s
       day = $2.to_i.to_s
       year = $3 ? $3.to_i.to_s : nil
 
     #- Takes care of MMM-YYYY and MMM
     elsif date =~ /^(#{ @month_abbreviations.keys.join('|') }).*?(?:-(\d{1,4}))?$/i
-      month = @month_names.index(@month_abbreviations[$1.to_s.capitalize]).to_i.to_s
+      month_text = $1.to_s.capitalize
+      month = @month_names.index(@month_abbreviations[month_text]).to_i.to_s
       day = nil
       year = $2 ? $2.to_i.to_s : nil
 
@@ -184,6 +187,7 @@ class HistoricalDate
     date_parts[:year] = year ? year.to_i : nil
     date_parts[:month] = month ? month.to_i : nil
     date_parts[:day] = day ? day.to_i : nil
+    #return { :circa => "day: #{ day }, month: #{ month }, year: #{ year }" }
 
     #- Some error checking at this point
     if month.to_i > 13 then
@@ -215,7 +219,8 @@ class HistoricalDate
       date_parts[:long] = show_circa + month_name + ', ' + year + show_era
       date_parts[:full] = date_parts[:long]
     elsif month and day then
-      date_parts[:short] = show_circa + day + '-' + @month_abbreviations.keys[month.to_i]
+      month_text = @month_abbreviations.index(month_text) || month_text
+      date_parts[:short] = show_circa + day + '-' + month_text
       date_parts[:long] = show_circa + day + ' ' + month_name
       date_parts[:full] = date_parts[:long]
     elsif year then
