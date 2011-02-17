@@ -213,7 +213,8 @@ class HistoricalDate
     if year and month and day then
       date_parts[:short] = show_circa + month + '/' + day + '/' + year + show_era
       date_parts[:long] = show_circa + month_name + ' ' + day + ', ' + year + show_era
-      date_parts[:full] = show_circa + Date.parse( date_parts[:long] ).strftime( '%A,' ) + Date.parse( day + ' ' + month_name + ' ' + year ).strftime( ' %B %-1d, %Y' ) + show_era
+      modified_long = show_circa + month_name + ' ' + day + ', ' + year.rjust( 4, "0" ) + show_era
+      date_parts[:full] = show_circa + Date.parse( modified_long ).strftime( '%A,' ) + Date.parse( day + ' ' + month_name + ' ' + year.rjust( 4, "0" ) ).strftime( ' %B %-1d, %Y' ) + show_era
     elsif year and month then
       date_parts[:short] = show_circa + month + '/' + year + show_era
       date_parts[:long] = show_circa + month_name + ', ' + year + show_era

@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = %q{historical_date}
-  s.version = "0.0.1"
-  s.date = %q{2009-08-15}
+  s.version = "0.0.2"
+  s.date = %q{2011-02-17}
   s.authors = ["David Cole"]
   s.email = %q{david.cole@back2adam.com}
   s.summary = %q{HistoricalDate provides a way to use partial and incomplete dates.}

@@ -2,4 +2,6 @@
 
 	* lib/historical_date.rb: Created file. Created class variables and class function, parse_date.
 	
+2011-02-17  David Cole  david.cole@back2adam.com
 
+  * lib/historical_date.rb: Changed Hash.index to Hash.key. Fixed parse with date having two digit year.
