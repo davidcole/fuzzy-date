@@ -8,7 +8,7 @@ With HistoricalDate, when you parse an incomplete date, you'll be given a hash o
 
 ## Installation
 
-  `gem install HistoricalDate`
+  `gem install historical_date`
 
 ## Contributing
 
