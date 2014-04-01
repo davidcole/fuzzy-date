@@ -97,8 +97,7 @@ class HistoricalDate
 
   def self.parse_date( date, is_euro = false )
 
-    #- We're only working with strings here
-    date = date.to_s.strip if date.respond_to? :to_s
+    date = clean_parameter date
 
     return '' if date == ''
 
@@ -232,5 +231,11 @@ class HistoricalDate
 
     return date_parts
 
+  end
+
+  private
+
+  def self.clean_parameter( date )
+    date.to_s.strip if date.respond_to? :to_s
   end
 end
