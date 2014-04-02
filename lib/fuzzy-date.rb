@@ -1,6 +1,6 @@
 require 'date'
 
-class HistoricalDate
+class FuzzyDate
 
   @month_names = {
     1 => 'January',

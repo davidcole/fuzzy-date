@@ -1,6 +1,6 @@
 require( 'rubygems' )
-require( 'historical_date' )
+require( 'fuzzy-date' )
 
-historical_date = HistoricalDate::parse_date( '15 March 1971' )
-puts historical_date.inspect
+fuzzy_date = FuzzyDate::parse_date( '15 March 1971' )
+puts fuzzy_date.inspect
 

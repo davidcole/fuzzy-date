@@ -3,7 +3,7 @@
 $:.unshift File.join( File.dirname( __FILE__ ), '..', 'lib' )
 
 require 'test/unit'
-require 'historical_date'
+require 'fuzzy-date'
 
 class DateTest < Test::Unit::TestCase
 
@@ -194,9 +194,9 @@ class DateTest < Test::Unit::TestCase
 
   def test_dates
     @test_dates.each do | date, data |
-      hd = HistoricalDate.parse_date( date, data[ :options ][ :euro ] || false )
+      fd = FuzzyDate.parse_date( date, data[ :options ][ :euro ] || false )
       data[ :parsed_date ].each do | key, value |
-        assert_equal( value, hd[ key ], "#{ date }#{ ' (euro)' if data[ :options ][ :euro ] } failed at :#{ key }."  )
+        assert_equal( value, fd[ key ], "#{ date }#{ ' (euro)' if data[ :options ][ :euro ] } failed at :#{ key }."  )
       end
     end
   end
