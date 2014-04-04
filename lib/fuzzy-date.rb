@@ -101,13 +101,7 @@ class FuzzyDate
 
     return '' if date == ''
 
-    date_parts = {}
-    date_parts[ :original ] = date
-    date_parts[ :circa    ] = false
-    date_parts[ :year     ] = nil
-    date_parts[ :month    ] = nil
-    date_parts[ :day      ] = nil
-    date_parts[ :era      ] = 'AD'
+    date_parts = set_up_date_parts date
 
     date_in_parts = []
 
@@ -237,5 +231,16 @@ class FuzzyDate
 
   def self.clean_parameter( date )
     date.to_s.strip if date.respond_to? :to_s
+  end
+
+  def self.set_up_date_parts( date )
+    date_parts = {}
+    date_parts[ :original ] = date
+    date_parts[ :circa    ] = false
+    date_parts[ :year     ] = nil
+    date_parts[ :month    ] = nil
+    date_parts[ :day      ] = nil
+    date_parts[ :era      ] = 'AD'
+    date_parts
   end
 end
