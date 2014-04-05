@@ -2,6 +2,8 @@ require 'date'
 
 class FuzzyDate
 
+  DATE_SEPARATOR = '[^A-Za-z0-9]'
+
   @month_names = {
     1 => 'January',
     2 => 'February',
@@ -105,7 +107,7 @@ class FuzzyDate
 
     date_in_parts = []
 
-    date_separator = Regexp.new '[^A-Za-z0-9]', true
+    date_separator = Regexp.new DATE_SEPARATOR, true
 
     #- Split the string
 
