@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = %q{fuzzy-date}
-  s.version     = "0.0.3"
-  s.date        = %q{2014-04-02}
+  s.version     = "0.0.4"
+  s.date        = %q{2014-04-08}
   s.authors     = ["David Cole"]
   s.email       = %q{david.cole@digitalcharleston.com}
   s.summary     = %q{fuzzy-date provides a way to use partial and incomplete dates.}
