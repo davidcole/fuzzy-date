@@ -1,6 +1,6 @@
 require 'date'
 
-class FuzzyDate
+module FuzzyDate
 
   DATE_SEPARATOR = '[^A-Za-z0-9]'
 
