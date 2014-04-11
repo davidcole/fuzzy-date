@@ -1,7 +1,7 @@
 require 'date'
 
 module FuzzyDate
-  VERSION = '0.0.6'
+  VERSION = '0.1.0'
 
   DATE_SEPARATOR = '[^A-Za-z0-9]'
 
@@ -98,7 +98,7 @@ module FuzzyDate
   # - All dates may be suffixed with the era (AD, BC, CE, BCE). AD is assumed.
   # - Dates may be prefixed by circa words (Circa, About, Abt).
 
-  def self.parse_date( date, is_euro = false )
+  def self.parse( date, is_euro = false )
 
     date = clean_parameter date
 

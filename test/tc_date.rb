@@ -194,7 +194,7 @@ class DateTest < Test::Unit::TestCase
 
   def test_dates
     @test_dates.each do | date, data |
-      fd = FuzzyDate.parse_date( date, data[ :options ][ :euro ] || false )
+      fd = FuzzyDate.parse( date, data[ :options ][ :euro ] || false )
       data[ :parsed_date ].each do | key, value |
         assert_equal( value, fd[ key ], "#{ date }#{ ' (euro)' if data[ :options ][ :euro ] } failed at :#{ key }."  )
       end

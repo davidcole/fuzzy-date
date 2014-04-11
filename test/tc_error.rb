@@ -26,7 +26,7 @@ class ErrorTest < Test::Unit::TestCase
 
   def test_errors
     @test_dates.each do | date, data |
-      assert_raise( data[ :error ], "#{ date }#{ ' (euro)' if data[ :euro ] } didn't fail, as it should have." ){ FuzzyDate.parse_date( date ) }
+      assert_raise( data[ :error ], "#{ date }#{ ' (euro)' if data[ :euro ] } didn't fail, as it should have." ){ FuzzyDate.parse( date ) }
     end
   end
 
