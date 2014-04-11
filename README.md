@@ -23,7 +23,7 @@ The best way to get your changes merged back into core is as follows:
 1. Hack away
 1. Add tests and make sure everything still passes by running `rake`
 1. If you are adding new functionality, document it in the README
-1. Do not change the version number, we will do that on our end
+1. Do not change the version number, I'll take care of that
 1. If necessary, rebase your commits into logical chunks, without errors
 1. Push the branch up to GitHub
 1. Send a pull request for your branch
@@ -34,4 +34,4 @@ fuzzy-date is released under the [MIT License](http://www.opensource.org/license
 
 ## Code Status
 
-* [![Build Status](https://travis-ci.org/davidcole/fuzzy-date.svg?branch=master)](https://travis-ci.org/davidcole/fuzzy-date)
+[![Build Status](https://travis-ci.org/davidcole/fuzzy-date.svg?branch=master)](https://travis-ci.org/davidcole/fuzzy-date)
