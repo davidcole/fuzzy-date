@@ -85,7 +85,7 @@ module FuzzyDate
   # * YYYY-MM  -  3 or 4 digit year, then 1 or 2 digit month
   # * YYYY  -  3 or 4 digit year
   # * MM-DD-YYYY  -  1 or 2 digit month, then 1 or 2 digit day, then 1 to 4 digit year
-  # * DD-MM-YYYY  -  1 or 2 digit day, then 1 or 2 digit month, then 1 to 4 digit year if is_euro is true
+  # * DD-MM-YYYY  -  1 or 2 digit day, then 1 or 2 digit month, then 1 to 4 digit year if euro is true
   # * MM-YYYY  -  1 or 2 digit month, then 1 to 4 digit year
   # * DD-MMM  -  1 or 2 digit day, then month name or abbreviation
   # * DD-MMM-YYYY  -  1 or 2 digit day, then month name or abbreviation, then 1 to 4 digit year
@@ -98,7 +98,7 @@ module FuzzyDate
   # - All dates may be suffixed with the era (AD, BC, CE, BCE). AD is assumed.
   # - Dates may be prefixed by circa words (Circa, About, Abt).
 
-  def self.parse( date, is_euro = false )
+  def self.parse( date, euro = false )
 
     date = clean_parameter date
 
@@ -138,7 +138,7 @@ module FuzzyDate
       day = $3 ? $3.to_i.to_s : nil
 
     #- Takes care of DD-MM-YYYY
-    elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/ and is_euro
+    elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/ and euro
       day = $1.to_i.to_s
       month = $2.to_i.to_s
       year = $3.to_i.to_s
