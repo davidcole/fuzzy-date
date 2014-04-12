@@ -1,7 +1,7 @@
 require 'date'
 
 module FuzzyDate
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   DATE_SEPARATOR = '[^A-Za-z0-9]'
 
