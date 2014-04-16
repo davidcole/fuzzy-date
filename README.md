@@ -12,7 +12,7 @@ With fuzzy-date, when you parse an incomplete date, you'll be given a hash of in
 
 ## Contributing
 
-If you'd like to hack on FuzzyDate - and we home you do! - start by forking the repo on GitHub:
+If you'd like to hack on FuzzyDate - and we hope you do! - start by forking the repo on GitHub:
 
 https://github.com/davidcole-fuzzydate
 
