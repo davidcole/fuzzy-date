@@ -3,7 +3,7 @@ require 'fuzzy-date/variables'
 require 'fuzzy-date/fuzzy-date'
 
 class FuzzyDate
-  VERSION = '0.1.4'
+  VERSION = '0.1.5'
 
   # *Note*: This is only for single dates - not ranges.
   #
