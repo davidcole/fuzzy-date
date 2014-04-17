@@ -4,6 +4,9 @@ class FuzzyDate
   private
 
   def setup
+
+    @date_parts = set_up_date_parts
+
     @month_names = {
       1 => 'January',
       2 => 'February',
@@ -76,5 +79,16 @@ class FuzzyDate
       'CE',
       'BCE'
       ]
+  end
+
+  def set_up_date_parts
+    @date_parts = {}
+    @date_parts[ :original ] = nil
+    @date_parts[ :circa    ] = false
+    @date_parts[ :year     ] = nil
+    @date_parts[ :month    ] = nil
+    @date_parts[ :day      ] = nil
+    @date_parts[ :era      ] = 'AD'
+    @date_parts
   end
 end

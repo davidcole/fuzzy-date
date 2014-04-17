@@ -10,9 +10,7 @@ class FuzzyDate
 
     date = clean_parameter date
 
-    return '' if date == ''
-
-    @date_parts = set_up_date_parts date
+    @date_parts[ :original ] = date
 
     date = massage date
     @date_parts[ :fixed ] = date
@@ -118,29 +116,18 @@ class FuzzyDate
       @date_parts[ :full   ] = @date_parts[ :long   ]
     end
 
-    @hash = @date_parts
+    @date_parts
 
   end
 
   def to_hash
-    @hash
+    @date_parts
   end
 
   private
 
   def clean_parameter( date )
     date.to_s.strip if date.respond_to? :to_s
-  end
-
-  def set_up_date_parts( date )
-    @date_parts = {}
-    @date_parts[ :original ] = date
-    @date_parts[ :circa    ] = false
-    @date_parts[ :year     ] = nil
-    @date_parts[ :month    ] = nil
-    @date_parts[ :day      ] = nil
-    @date_parts[ :era      ] = 'AD'
-    @date_parts
   end
 
   def massage( date )
