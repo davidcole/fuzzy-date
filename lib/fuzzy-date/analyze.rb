@@ -6,15 +6,15 @@ class FuzzyDate
   #
   # Possible incoming date formats:
   # * YYYY-MM-DD  -  starts with 3 or 4 digit year, and month and day may be 1 or 2 digits
-  # * YYYY-MM  -  3 or 4 digit year, then 1 or 2 digit month
-  # * YYYY  -  3 or 4 digit year
+  # * YYYY-MM     -  3 or 4 digit year, then 1 or 2 digit month
+  # * YYYY        -  3 or 4 digit year
   # * MM-DD-YYYY  -  1 or 2 digit month, then 1 or 2 digit day, then 1 to 4 digit year
   # * DD-MM-YYYY  -  1 or 2 digit day, then 1 or 2 digit month, then 1 to 4 digit year if euro is true
-  # * MM-YYYY  -  1 or 2 digit month, then 1 to 4 digit year
-  # * DD-MMM  -  1 or 2 digit day, then month name or abbreviation
-  # * DD-MMM-YYYY  -  1 or 2 digit day, then month name or abbreviation, then 1 to 4 digit year
-  # * MMM-YYYY   -  month name or abbreviation, then 1 to 4 digit year
-  # * MMM-DD-YYYY  -  month name or abbreviation, then 1 or 2 digit day, then 1 to 4 digit year
+  # * MM-YYYY     -  1 or 2 digit month, then 1 to 4 digit year
+  # * DD-MMM      -  1 or 2 digit day, then month name or abbreviation
+  # * DD-MMM-YYYY -  1 or 2 digit day, then month name or abbreviation, then 1 to 4 digit year
+  # * MMM-YYYY    -  month name or abbreviation, then 1 to 4 digit year
+  # * MMM-DD-YYYY -  month name or abbreviation, then 1 or 2 digit day, then 1 to 4 digit year
   #
   # Notes:
   # - Commas are optional.
@@ -33,56 +33,46 @@ class FuzzyDate
     date = massage date
     @date_parts[ :fixed ] = date
 
-    #- Takes care of YYYY
-    if date =~ /^(\d{1,4})$/
-      year = $1.to_i.to_s
-      month = nil
-      day = nil
+    year, month, day = nil
 
-    #- Takes care of YYYY-MM-DD and YYYY-MM
-    elsif date =~ /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/
-      year = $1.to_i.to_s
-      month = $2 ? $2.to_i.to_s : nil
-      day = $3 ? $3.to_i.to_s : nil
+    if date =~ @date_patterns[ :yyyy ]
+      year  = stringify $1
 
-    #- Takes care of DD-MM-YYYY
-    elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/ and euro
-      day = $1.to_i.to_s
-      month = $2.to_i.to_s
-      year = $3.to_i.to_s
+    elsif date =~ @date_patterns[ :yyyy_mm_dd_and_yyyy_mm ]
+      year  = stringify $1
+      month = stringify $2 unless $2.nil?
+      day   = stringify $3 unless $3.nil?
 
-    #- Takes care of MM-DD-YYYY
-    elsif date =~ /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/
-      month = $1.to_i.to_s
-      day = $2.to_i.to_s
-      year = $3.to_i.to_s
+    elsif date =~ @date_patterns[ :dd_mm_yyyy ] and euro
+      day   = stringify $1
+      month = stringify $2
+      year  = stringify $3
 
-    #- Takes care of MM-YYYY
-    elsif date =~ /^(\d{1,2})-(\d{1,4})?$/
-      month = $1.to_i.to_s
-      day = nil
-      year = $2.to_i.to_s
+    elsif date =~ @date_patterns[ :mm_dd_yyyy ]
+      month = stringify $1
+      day   = stringify $2
+      year  = stringify $3
 
-    #- Takes care of DD-MMM-YYYY and DD-MMM
-    elsif date =~ /^(\d{1,2})(?:-(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?)?$/i
-      month_text = $2.to_s.capitalize
-      month = @month_names.key( @month_abbreviations[ month_text ] ).to_i.to_s
-      day = $1.to_i.to_s
-      year = $3 ? $3.to_i.to_s : nil
+    elsif date =~ @date_patterns[ :mm_yyyy ]
+      month = stringify $1
+      year  = stringify $2
 
-    #- Takes care of MMM-DD-YYYY
-    elsif date =~ /^(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})-(\d{1,4})$/i
-      month_text = $1.to_s.capitalize
-      month = @month_names.key( @month_abbreviations[ month_text ] ).to_i.to_s
-      day = $2.to_i.to_s
-      year = $3 ? $3.to_i.to_s : nil
+    elsif date =~ @date_patterns[ :dd_mmm_yyyy_and_dd_mmm ]
+      month_text  = $2.to_s.capitalize
+      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
+      day         = stringify $1
+      year        = stringify $3 unless $3.nil?
 
-    #- Takes care of MMM-YYYY and MMM
-    elsif date =~ /^(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?$/i
-      month_text = $1.to_s.capitalize
-      month = @month_names.key( @month_abbreviations[ month_text ] ).to_i.to_s
-      day = nil
-      year = $2 ? $2.to_i.to_s : nil
+    elsif date =~ @date_patterns[ :mmm_dd_yyyy ]
+      month_text  = $1.to_s.capitalize
+      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
+      day         = stringify $2
+      year        = stringify $3 unless $3.nil?
+
+    elsif date =~ @date_patterns[ :mmm_yyyy_and_mmm ]
+      month_text  = $1.to_s.capitalize
+      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
+      year        = stringify $2 unless $2.nil?
 
     else
       raise ArgumentError.new( 'Cannot parse date.' )
@@ -91,7 +81,6 @@ class FuzzyDate
     @date_parts[ :year   ] = year  ? year.to_i   : nil
     @date_parts[ :month  ] = month ? month.to_i  : nil
     @date_parts[ :day    ] = day   ? day.to_i    : nil
-    #return { :circa => "day: #{ day }, month: #{ month }, year: #{ year }" }
 
     #- Some error checking at this point
     if month.to_i > 13
@@ -161,6 +150,10 @@ class FuzzyDate
     end
 
     date_in_parts.join '-'
+  end
+
+  def stringify( capture )
+    capture.to_i.to_s
   end
 
 end

@@ -79,6 +79,18 @@ class FuzzyDate
       'CE',
       'BCE'
       ]
+    
+    @date_patterns = {
+      yyyy:                   /^(\d{1,4})$/,
+      yyyy_mm_dd_and_yyyy_mm: /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/,
+      dd_mm_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,
+      mm_dd_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,
+      mm_yyyy:                /^(\d{1,2})-(\d{1,4})?$/,
+      dd_mmm_yyyy_and_dd_mmm: /^(\d{1,2})(?:-(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?)?$/i,
+      mmm_dd_yyyy:            /^(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})-(\d{1,4})$/i,
+      mmm_yyyy_and_mmm:       /^(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?$/i
+    }
+
   end
 
   def set_up_date_parts
