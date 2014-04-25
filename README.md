@@ -4,7 +4,7 @@ The fuzzy-date gem provides a way to parse and use incomplete dates, like those 
 
 For example, if you know your great-great-great grandmother was born in April, 1836, but you don't know the day of the month, that's not going to work if you try to parse it as a Date object.
 
-With fuzzy-date, when you parse an incomplete date, you'll be given a hash of information about the date that can be stored as a string.
+With fuzzy-date, when you parse an incomplete date, you'll be given an object of information about the date.
 
 ## Installation
 
