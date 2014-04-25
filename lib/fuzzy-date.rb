@@ -3,10 +3,9 @@ require 'fuzzy-date/variables'
 require 'fuzzy-date/fuzzy-date'
 
 class FuzzyDate
-  VERSION = '0.1.7'
+  VERSION = '0.2.0'
 
   def self.parse( date, euro = false )
-    fuzzy_date = FuzzyDate.new date, euro
-    fuzzy_date.to_hash
+    FuzzyDate.new date, euro
   end
 end

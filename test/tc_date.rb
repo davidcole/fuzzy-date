@@ -15,12 +15,12 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '2010-04-05',
-          :full       => 'Monday, April 5, 2010 AD',
-          :long       => 'April 5, 2010 AD',
+          :full       => 'Monday, April 5, 2010',
+          :long       => 'April 5, 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010-04-05',
-          :short      => '4/5/2010 AD',
+          :short      => '4/5/2010',
           :year       => 2010
         },
         :options => {
@@ -51,12 +51,12 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => 'AD',
           :fixed      => '2010-04',
-          :full       => 'April, 2010 AD',
-          :long       => 'April, 2010 AD',
+          :full       => 'April, 2010',
+          :long       => 'April, 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010-04',
-          :short      => '4/2010 AD',
+          :short      => '4/2010',
           :year       => 2010
         },
         :options => {
@@ -69,12 +69,12 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => 'AD',
           :fixed      => '2010',
-          :full       => '2010 AD',
-          :long       => '2010 AD',
+          :full       => '2010',
+          :long       => '2010',
           :month      => nil,
           :month_name => nil,
           :original   => '2010',
-          :short      => '2010 AD',
+          :short      => '2010',
           :year       => 2010
         },
         :options => {
@@ -105,12 +105,12 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '4-5-2010',
-          :full       => 'Monday, April 5, 2010 AD',
-          :long       => 'April 5, 2010 AD',
+          :full       => 'Monday, April 5, 2010',
+          :long       => 'April 5, 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/5/2010',
-          :short      => '4/5/2010 AD',
+          :short      => '4/5/2010',
           :year       => 2010
         },
         :options => {
@@ -123,12 +123,12 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '4-5-10',
-          :full       => 'Saturday, April 5, 0010 AD',
-          :long       => 'April 5, 10 AD',
+          :full       => 'Saturday, April 5, 0010',
+          :long       => 'April 5, 10',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/5/10',
-          :short      => '4/5/10 AD',
+          :short      => '4/5/10',
           :year       => 10
         },
         :options => {
@@ -141,12 +141,12 @@ class DateTest < Test::Unit::TestCase
           :day        => 4,
           :era        => 'AD',
           :fixed      => '4-5-2010',
-          :full       => 'Tuesday, May 4, 2010 AD',
-          :long       => 'May 4, 2010 AD',
+          :full       => 'Tuesday, May 4, 2010',
+          :long       => 'May 4, 2010',
           :month      => 5,
           :month_name => 'May',
           :original   => '4/5/2010',
-          :short      => '5/4/2010 AD',
+          :short      => '5/4/2010',
           :year       => 2010
         },
         :options => {
@@ -159,12 +159,12 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => 'AD',
           :fixed      => '4-2010',
-          :full       => 'April, 2010 AD',
-          :long       => 'April, 2010 AD',
+          :full       => 'April, 2010',
+          :long       => 'April, 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/2010',
-          :short      => '4/2010 AD',
+          :short      => '4/2010',
           :year       => 2010
         },
         :options => {
@@ -195,6 +195,15 @@ class DateTest < Test::Unit::TestCase
   def test_dates
     @test_dates.each do | date, data |
       fd = FuzzyDate.parse( date, data[ :options ][ :euro ] || false )
+      data[ :parsed_date ].each do | key, value |
+        assert_equal( value, fd.send( key ), "#{ date }#{ ' (euro)' if data[ :options ][ :euro ] } failed at :#{ key }."  )
+      end
+    end
+  end
+
+  def test_hash
+    @test_dates.each do | date, data |
+      fd = FuzzyDate.parse( date, data[ :options ][ :euro ] || false ).to_hash
       data[ :parsed_date ].each do | key, value |
         assert_equal( value, fd[ key ], "#{ date }#{ ' (euro)' if data[ :options ][ :euro ] } failed at :#{ key }."  )
       end

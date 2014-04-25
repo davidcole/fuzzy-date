@@ -2,6 +2,8 @@ require 'date'
 
 class FuzzyDate
 
+  attr_reader :short, :full, :long, :original, :fixed, :year, :month, :day, :month_name, :circa, :era
+
   # *Note*: This is only for single dates - not ranges.
   #
   # Possible incoming date formats:
@@ -100,7 +102,7 @@ class FuzzyDate
 
     # ----------------------------------------------------------------------
 
-    show_era = ' ' + @date_parts[ :era ]
+    show_era = @date_parts[ :era ] == 'BC' ? ' ' + @date_parts[ :era ] : ''
     show_circa = @date_parts[ :circa ] == true ? 'About ' : ''
 
     if year and month and day
@@ -122,6 +124,18 @@ class FuzzyDate
       @date_parts[ :long   ] = @date_parts[ :short  ]
       @date_parts[ :full   ] = @date_parts[ :long   ]
     end
+
+    @short      = @date_parts[ :short       ]
+    @long       = @date_parts[ :long        ]
+    @full       = @date_parts[ :full        ]
+    @original   = @date_parts[ :original    ]
+    @fixed      = @date_parts[ :fixed       ]
+    @year       = @date_parts[ :year        ]
+    @month      = @date_parts[ :month       ]
+    @day        = @date_parts[ :day         ]
+    @month_name = @date_parts[ :month_name  ]
+    @circa      = @date_parts[ :circa       ]
+    @era        = @date_parts[ :era         ]
 
     @date_parts
 
