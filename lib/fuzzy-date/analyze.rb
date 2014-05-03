@@ -30,114 +30,95 @@ class FuzzyDate
 
     date = clean_parameter date
 
-    @date_parts[ :original ] = date
+    @original = date
 
     date = massage date
-    @date_parts[ :fixed ] = date
+    @fixed = date
 
-    year, month, day = nil
+    @year, @month, @day = nil
 
     if date =~ @date_patterns[ :yyyy ]
-      year  = stringify $1
+      @year  = $1.to_i
 
     elsif date =~ @date_patterns[ :yyyy_mm_dd_and_yyyy_mm ]
-      year  = stringify $1
-      month = stringify $2 unless $2.nil?
-      day   = stringify $3 unless $3.nil?
+      @year  = $1.to_i
+      @month = $2.to_i unless $2.nil?
+      @day   = $3.to_i unless $3.nil?
 
     elsif date =~ @date_patterns[ :dd_mm_yyyy ] and euro
-      day   = stringify $1
-      month = stringify $2
-      year  = stringify $3
+      @day   = $1.to_i
+      @month = $2.to_i
+      @year  = $3.to_i
 
     elsif date =~ @date_patterns[ :mm_dd_yyyy ]
-      month = stringify $1
-      day   = stringify $2
-      year  = stringify $3
+      @month = $1.to_i
+      @day   = $2.to_i
+      @year  = $3.to_i
 
     elsif date =~ @date_patterns[ :mm_yyyy ]
-      month = stringify $1
-      year  = stringify $2
+      @month = $1.to_i
+      @year  = $2.to_i
 
     elsif date =~ @date_patterns[ :dd_mmm_yyyy_and_dd_mmm ]
       month_text  = $2.to_s.capitalize
-      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
-      day         = stringify $1
-      year        = stringify $3 unless $3.nil?
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+      @day        = $1.to_i
+      @year       = $3.to_i unless $3.nil?
 
     elsif date =~ @date_patterns[ :mmm_dd_yyyy ]
       month_text  = $1.to_s.capitalize
-      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
-      day         = stringify $2
-      year        = stringify $3 unless $3.nil?
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+      @day        = $2.to_i
+      @year       = $3.to_i unless $3.nil?
 
     elsif date =~ @date_patterns[ :mmm_yyyy_and_mmm ]
       month_text  = $1.to_s.capitalize
-      month       = stringify @month_names.key( @month_abbreviations[ month_text ] )
-      year        = stringify $2 unless $2.nil?
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+      @year       = $2.to_i unless $2.nil?
 
     else
       raise ArgumentError.new( 'Cannot parse date.' )
     end
 
-    @date_parts[ :year   ] = year  ? year.to_i   : nil
-    @date_parts[ :month  ] = month ? month.to_i  : nil
-    @date_parts[ :day    ] = day   ? day.to_i    : nil
-
-    #- Some error checking at this point
-    if month.to_i > 13
+    #- Make sure the dates make sense
+    if @month and @month > 13
       raise ArgumentError.new( 'Month cannot be greater than 12.' )
-    elsif month and day and day.to_i > @days_in_month[ month.to_i ]
-      unless month.to_i == 2 and year and Date.parse( '1/1/' + year ).leap? and day.to_i == 29
+    elsif @month and @day and @day > @days_in_month[ @month ]
+      unless @month == 2 and @year and Date.parse( '1/1/' + @year ).leap? and @day == 29
         raise ArgumentError.new( 'Too many days in this month.' )
       end
-    elsif month and month.to_i < 1
+    elsif @month and @month < 1
       raise ArgumentError.new( 'Month cannot be less than 1.' )
-    elsif day and day.to_i < 1
+    elsif @day and @day < 1
       raise ArgumentError.new( 'Day cannot be less than 1.' )
     end
 
-    month_name = @month_names[ month.to_i ]
-    @date_parts[ :month_name ] = month_name
+    @month_name = @month_names[ @month ]
 
     # ----------------------------------------------------------------------
 
-    show_era = @date_parts[ :era ] == 'BC' ? ' ' + @date_parts[ :era ] : ''
-    show_circa = @date_parts[ :circa ] == true ? 'About ' : ''
+    show_era    = @era == 'BC' ? ' ' + @era : ''
+    show_circa  = @circa ? 'About ' : ''
 
-    if year and month and day
-      @date_parts[ :short  ] = show_circa + month + '/' + day + '/' + year + show_era
-      @date_parts[ :long   ] = show_circa + month_name + ' ' + day + ', ' + year + show_era
-      modified_long = show_circa + month_name + ' ' + day + ', ' + year.rjust( 4, "0" ) + show_era
-      @date_parts[ :full   ] = show_circa + Date.parse( modified_long ).strftime( '%A,' ) + Date.parse( day + ' ' + month_name + ' ' + year.rjust( 4, "0" ) ).strftime( ' %B %-1d, %Y' ) + show_era
-    elsif year and month
-      @date_parts[ :short  ] = show_circa + month + '/' + year + show_era
-      @date_parts[ :long   ] = show_circa + month_name + ', ' + year + show_era
-      @date_parts[ :full   ] = @date_parts[ :long ]
-    elsif month and day
-      month_text = @month_abbreviations.key(month_text) || month_text
-      @date_parts[ :short  ] = show_circa + day + '-' + month_text
-      @date_parts[ :long   ] = show_circa + day + ' ' + month_name
-      @date_parts[ :full   ] = @date_parts[ :long ]
+    if @year and @month and @day
+      @short = show_circa + @month.to_s + '/' + @day.to_s + '/' + @year.to_s + show_era
+      @long  = show_circa + @month_name + ' ' + @day.to_s + ', ' + @year.to_s + show_era
+      modified_long = show_circa + @month_name + ' ' + @day.to_s + ', ' + @year.to_s.rjust( 4, "0" ) + show_era
+      @full  = show_circa + Date.parse( modified_long ).strftime( '%A,' ) + Date.parse( @day.to_s + ' ' + @month_name + ' ' + @year.to_s.rjust( 4, "0" ) ).strftime( ' %B %-1d, %Y' ) + show_era
+    elsif @year and @month
+      @short = show_circa + @month.to_s + '/' + @year.to_s + show_era
+      @long  = show_circa + @month_name + ', ' + @year.to_s + show_era
+      @full  = @long
+    elsif @month and @day
+      month_text = @month_abbreviations.key( month_text ) || month_text
+      @short = show_circa + @day.to_s + '-' + month_text
+      @long  = show_circa + @day.to_s + ' ' + @month_name
+      @full  = @long
     elsif year
-      @date_parts[ :short  ] = show_circa + year + show_era
-      @date_parts[ :long   ] = @date_parts[ :short  ]
-      @date_parts[ :full   ] = @date_parts[ :long   ]
+      @short  = show_circa + @year.to_s + show_era
+      @long   = @short
+      @full   = @long
     end
-
-    @short      = @date_parts[ :short       ]
-    @long       = @date_parts[ :long        ]
-    @full       = @date_parts[ :full        ]
-    @original   = @date_parts[ :original    ]
-    @fixed      = @date_parts[ :fixed       ]
-    @year       = @date_parts[ :year        ]
-    @month      = @date_parts[ :month       ]
-    @day        = @date_parts[ :day         ]
-    @month_name = @date_parts[ :month_name  ]
-    @circa      = @date_parts[ :circa       ]
-    @era        = @date_parts[ :era         ]
-
-    @date_parts
 
   end
 
@@ -156,18 +137,14 @@ class FuzzyDate
     date_in_parts = date.split date_separator
     date_in_parts.delete_if { |d| d.to_s.empty? }
     if date_in_parts.first.match Regexp.new( @circa_words.join( '|' ), true )
-      @date_parts[ :circa ] = true
+      @circa = true
       date_in_parts.shift
     end
     if date_in_parts.last.match Regexp.new( @era_words.join( '|' ), true )
-      @date_parts[ :era ] = date_in_parts.pop.upcase.strip
+      @era = date_in_parts.pop.upcase.strip
     end
 
     date_in_parts.join '-'
-  end
-
-  def stringify( capture )
-    capture.to_i.to_s
   end
 
 end
