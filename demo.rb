@@ -1,5 +1,5 @@
-require( 'rubygems' )
-require( 'fuzzy-date' )
+require 'rubygems'
+require 'fuzzy-date'
 
 fuzzy_date = FuzzyDate::parse( '15 March 1971' )
 

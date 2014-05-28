@@ -10,6 +10,22 @@ With fuzzy-date, when you parse an incomplete date, you'll be given an object of
 
   `gem install fuzzy-date`
 
+## Usage:
+
+	fuzzy_date = FuzzyDate::parse( '15 March 1971' )
+
+	puts "PARSING: #{ fuzzy_date.original }"
+
+	puts "Short date:     #{ fuzzy_date.short       }"
+	puts "Long date:      #{ fuzzy_date.long        }"
+	puts "Full date:      #{ fuzzy_date.full        }"
+	puts "Year:           #{ fuzzy_date.year        }"
+	puts "Month:          #{ fuzzy_date.month       }"
+	puts "Day:            #{ fuzzy_date.day         }"
+	puts "Month name:     #{ fuzzy_date.month_name  }"
+	puts "Circa:          #{ fuzzy_date.circa       }"
+	puts "Era:            #{ fuzzy_date.era         }"
+
 ## Contributing
 
 If you'd like to hack on FuzzyDate - and we hope you do! - start by forking the repo on GitHub:
