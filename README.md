@@ -12,6 +12,9 @@ With fuzzy-date, when you parse an incomplete date, you'll be given an object of
 
 ## Usage:
 
+	require 'rubygems'
+	require 'fuzzy-date'
+
 	fuzzy_date = FuzzyDate::parse( '15 March 1971' )
 
 	puts "PARSING: #{ fuzzy_date.original }"
