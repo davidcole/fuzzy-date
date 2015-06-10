@@ -206,6 +206,24 @@ class DateTest < Test::Unit::TestCase
         :options    => {
           :euro    => false
         }
+      },
+      '2015 June 15' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 15,
+          :era        => "AD",
+          :fixed      => "2015-June-15",
+          :full       => "Monday, June 15, 2015",
+          :long       => "June 15, 2015",
+          :month      => 6,
+          :month_name => "June",
+          :original   => "2015 June 15",
+          :short      => "6/15/2015",
+          :year       => 2015
+        },
+        :options    => {
+          :euro    => false
+        }
       }
     }
   end

@@ -79,10 +79,11 @@ class FuzzyDate
       'CE',
       'BCE'
       ]
-    
+
     @date_patterns = {
       yyyy:                   /^(\d{1,4})$/,
       yyyy_mmm:               /^(\d{1,4})-(#{ @month_abbreviations.keys.join( '|' ) }).*?$/i,
+      yyyy_mmm_dd:            /^(\d{1,4})-(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})$/i,
       yyyy_mm_dd_and_yyyy_mm: /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/,
       dd_mm_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,
       mm_dd_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,

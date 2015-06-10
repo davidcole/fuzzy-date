@@ -77,6 +77,12 @@ class FuzzyDate
       @month      = @month_names.key( @month_abbreviations[ month_text ] )
       @year       = $2.to_i unless $2.nil?
 
+    elsif date =~ @date_patterns[ :yyyy_mmm_dd ]
+      @year       = $1.to_i unless $1.nil?
+      month_text  = $2.to_s.capitalize
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+      @day        = $3.to_i
+
     elsif date =~ @date_patterns[ :yyyy_mmm ]
       @year       = $1.to_i unless $1.nil?
       month_text  = $2.to_s.capitalize
