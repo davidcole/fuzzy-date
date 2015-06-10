@@ -45,6 +45,24 @@ class DateTest < Test::Unit::TestCase
           :euro    => false
         }
       },
+      '2010 04 05 BCE' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 5,
+          :era        => 'BCE',
+          :fixed      => '2010-04-05',
+          :full       => 'Tuesday, April 5, 2010 BCE',
+          :long       => 'April 5, 2010 BCE',
+          :month      => 4,
+          :month_name => 'April',
+          :original   => '2010 04 05 BCE',
+          :short      => '4/5/2010 BCE',
+          :year       => 2010
+        },
+        :options => {
+          :euro    => false
+        }
+      },
       '2010-04' => {
         :parsed_date => {
           :circa      => false,

@@ -73,12 +73,12 @@ class FuzzyDate
       '~'
       ]
 
-    @era_words = [
-      'AD',
-      'BC',
-      'CE',
-      'BCE'
-      ]
+    @era_mapping = {
+      'AD' => :ce,
+      'BC' => :bce,
+      'CE' => :ce,
+      'BCE' => :bce
+      }
 
     @date_patterns = {
       yyyy:                   /^(\d{1,4})$/,
@@ -91,7 +91,7 @@ class FuzzyDate
       dd_mmm_yyyy_and_dd_mmm: /^(\d{1,2})(?:-(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?)?$/i,
       mmm_dd_yyyy:            /^(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})-(\d{1,4})$/i,
       mmm_yyyy_and_mmm:       /^(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?$/i
-    }
+      }
 
   end
 
