@@ -17,6 +17,7 @@ class FuzzyDate
   # * DD-MMM-YYYY -  1 or 2 digit day, then month name or abbreviation, then 1 to 4 digit year
   # * MMM-YYYY    -  month name or abbreviation, then 1 to 4 digit year
   # * MMM-DD-YYYY -  month name or abbreviation, then 1 or 2 digit day, then 1 to 4 digit year
+  # * YYYY-MMM    -  1 to 4 digit year, then month name or abbreviation
   #
   # Notes:
   # - Commas are optional.
@@ -75,6 +76,11 @@ class FuzzyDate
       month_text  = $1.to_s.capitalize
       @month      = @month_names.key( @month_abbreviations[ month_text ] )
       @year       = $2.to_i unless $2.nil?
+
+    elsif date =~ @date_patterns[ :yyyy_mmm ]
+      @year       = $1.to_i unless $1.nil?
+      month_text  = $2.to_s.capitalize
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
 
     else
       raise ArgumentError.new( 'Cannot parse date.' )
