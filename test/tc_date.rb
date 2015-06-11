@@ -45,6 +45,24 @@ class DateTest < Test::Unit::TestCase
           :euro    => false
         }
       },
+      '2010 04 05 BCE' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 5,
+          :era        => 'BCE',
+          :fixed      => '2010-04-05',
+          :full       => 'Tuesday, April 5, 2010 BCE',
+          :long       => 'April 5, 2010 BCE',
+          :month      => 4,
+          :month_name => 'April',
+          :original   => '2010 04 05 BCE',
+          :short      => '4/5/2010 BCE',
+          :year       => 2010
+        },
+        :options => {
+          :euro    => false
+        }
+      },
       '2010-04' => {
         :parsed_date => {
           :circa      => false,
@@ -186,6 +204,42 @@ class DateTest < Test::Unit::TestCase
           :year       => nil
         },
         :options => {
+          :euro    => false
+        },
+      },
+      '2015 June' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => nil,
+          :era        => "AD",
+          :fixed      => "2015-June",
+          :full       => "June, 2015",
+          :long       => "June, 2015",
+          :month      => 6,
+          :month_name => "June",
+          :original   => "2015 June",
+          :short      => "6/2015",
+          :year       => 2015
+        },
+        :options    => {
+          :euro    => false
+        }
+      },
+      '2015 June 15' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 15,
+          :era        => "AD",
+          :fixed      => "2015-June-15",
+          :full       => "Monday, June 15, 2015",
+          :long       => "June 15, 2015",
+          :month      => 6,
+          :month_name => "June",
+          :original   => "2015 June 15",
+          :short      => "6/15/2015",
+          :year       => 2015
+        },
+        :options    => {
           :euro    => false
         }
       }

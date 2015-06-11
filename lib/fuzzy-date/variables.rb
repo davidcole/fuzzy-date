@@ -73,15 +73,17 @@ class FuzzyDate
       '~'
       ]
 
-    @era_words = [
-      'AD',
-      'BC',
-      'CE',
-      'BCE'
-      ]
-    
+    @era_mapping = {
+      'AD' => :ce,
+      'BC' => :bce,
+      'CE' => :ce,
+      'BCE' => :bce
+      }
+
     @date_patterns = {
       yyyy:                   /^(\d{1,4})$/,
+      yyyy_mmm:               /^(\d{1,4})-(#{ @month_abbreviations.keys.join( '|' ) }).*?$/i,
+      yyyy_mmm_dd:            /^(\d{1,4})-(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})$/i,
       yyyy_mm_dd_and_yyyy_mm: /^(\d{3,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/,
       dd_mm_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,
       mm_dd_yyyy:             /^(\d{1,2})-(\d{1,2})-(\d{1,4})$/,
@@ -89,7 +91,7 @@ class FuzzyDate
       dd_mmm_yyyy_and_dd_mmm: /^(\d{1,2})(?:-(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?)?$/i,
       mmm_dd_yyyy:            /^(#{ @month_abbreviations.keys.join( '|' ) }).*?-(\d{1,2})-(\d{1,4})$/i,
       mmm_yyyy_and_mmm:       /^(#{ @month_abbreviations.keys.join( '|' ) }).*?(?:-(\d{1,4}))?$/i
-    }
+      }
 
   end
 

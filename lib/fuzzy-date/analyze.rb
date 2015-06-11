@@ -17,6 +17,7 @@ class FuzzyDate
   # * DD-MMM-YYYY -  1 or 2 digit day, then month name or abbreviation, then 1 to 4 digit year
   # * MMM-YYYY    -  month name or abbreviation, then 1 to 4 digit year
   # * MMM-DD-YYYY -  month name or abbreviation, then 1 or 2 digit day, then 1 to 4 digit year
+  # * YYYY-MMM    -  1 to 4 digit year, then month name or abbreviation
   #
   # Notes:
   # - Commas are optional.
@@ -76,6 +77,17 @@ class FuzzyDate
       @month      = @month_names.key( @month_abbreviations[ month_text ] )
       @year       = $2.to_i unless $2.nil?
 
+    elsif date =~ @date_patterns[ :yyyy_mmm_dd ]
+      @year       = $1.to_i unless $1.nil?
+      month_text  = $2.to_s.capitalize
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+      @day        = $3.to_i
+
+    elsif date =~ @date_patterns[ :yyyy_mmm ]
+      @year       = $1.to_i unless $1.nil?
+      month_text  = $2.to_s.capitalize
+      @month      = @month_names.key( @month_abbreviations[ month_text ] )
+
     else
       raise ArgumentError.new( 'Cannot parse date.' )
     end
@@ -97,7 +109,7 @@ class FuzzyDate
 
     # ----------------------------------------------------------------------
 
-    show_era    = @era == 'BC' ? ' ' + @era : ''
+    show_era    = @era_mapping[@era] == :bce ? ' ' + @era : ''
     show_circa  = @circa ? 'About ' : ''
 
     if @year and @month and @day
@@ -140,7 +152,7 @@ class FuzzyDate
       @circa = true
       date_in_parts.shift
     end
-    if date_in_parts.last.match Regexp.new( @era_words.join( '|' ), true )
+    if date_in_parts.last.match Regexp.new( @era_mapping.keys.join( '|' ), true )
       @era = date_in_parts.pop.upcase.strip
     end
 
