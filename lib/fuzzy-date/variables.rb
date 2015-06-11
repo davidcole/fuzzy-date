@@ -73,7 +73,7 @@ class FuzzyDate
       '~'
       ]
 
-    @era_mapping = {
+    @eras = {
       'AD' => :ce,
       'BC' => :bce,
       'CE' => :ce,

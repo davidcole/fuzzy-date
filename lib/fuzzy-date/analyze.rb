@@ -109,7 +109,7 @@ class FuzzyDate
 
     # ----------------------------------------------------------------------
 
-    show_era    = @era_mapping[@era] == :bce ? ' ' + @era : ''
+    show_era    = @eras[@era] == :bce ? ' ' + @era : ''
     show_circa  = @circa ? 'About ' : ''
 
     if @year and @month and @day
@@ -152,7 +152,7 @@ class FuzzyDate
       @circa = true
       date_in_parts.shift
     end
-    if date_in_parts.last.match Regexp.new( @era_mapping.keys.join( '|' ), true )
+    if date_in_parts.last.match Regexp.new( @eras.keys.join( '|' ), true )
       @era = date_in_parts.pop.upcase.strip
     end
 
