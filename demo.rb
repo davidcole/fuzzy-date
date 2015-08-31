@@ -1,64 +1,22 @@
-require 'rubygems'
-require 'fuzzy-date'
+load 'lib/fuzzy-date.rb'
 
-fuzzy_date = FuzzyDate::parse( '15 March 1971' )
+[ '15 March 1971',
+  '15 March',
+  'About March 1971',
+  '1971 BC' ].each do |date|
 
-puts "PARSING: #{ fuzzy_date.original }"
+  fuzzy_date = FuzzyDate::parse( date )
 
-puts "Short date:     #{ fuzzy_date.short       }"
-puts "Long date:      #{ fuzzy_date.long        }"
-puts "Full date:      #{ fuzzy_date.full        }"
-puts "Year:           #{ fuzzy_date.year        }"
-puts "Month:          #{ fuzzy_date.month       }"
-puts "Day:            #{ fuzzy_date.day         }"
-puts "Month name:     #{ fuzzy_date.month_name  }"
-puts "Circa:          #{ fuzzy_date.circa       }"
-puts "Era:            #{ fuzzy_date.era         }"
+  puts "PARSING: #{ fuzzy_date.original }"
 
-fuzzy_date = FuzzyDate::parse( '15 March' )
-
-puts "PARSING: #{ fuzzy_date.original }"
-
-puts "Short date:     #{ fuzzy_date.short       }"
-puts "Long date:      #{ fuzzy_date.long        }"
-puts "Full date:      #{ fuzzy_date.full        }"
-
-puts "Original date:  #{ fuzzy_date.original    }"
-puts "Year:           #{ fuzzy_date.year        }"
-puts "Month:          #{ fuzzy_date.month       }"
-puts "Day:            #{ fuzzy_date.day         }"
-puts "Month name:     #{ fuzzy_date.month_name  }"
-puts "Circa:          #{ fuzzy_date.circa       }"
-puts "Era:            #{ fuzzy_date.era         }"
-
-fuzzy_date = FuzzyDate::parse( 'About March 1971' )
-
-puts "PARSING: #{ fuzzy_date.original }"
-
-puts "Short date:     #{ fuzzy_date.short       }"
-puts "Long date:      #{ fuzzy_date.long        }"
-puts "Full date:      #{ fuzzy_date.full        }"
-
-puts "Original date:  #{ fuzzy_date.original    }"
-puts "Year:           #{ fuzzy_date.year        }"
-puts "Month:          #{ fuzzy_date.month       }"
-puts "Day:            #{ fuzzy_date.day         }"
-puts "Month name:     #{ fuzzy_date.month_name  }"
-puts "Circa:          #{ fuzzy_date.circa       }"
-puts "Era:            #{ fuzzy_date.era         }"
-
-fuzzy_date = FuzzyDate::parse( '1971 BC' )
-
-puts "PARSING: #{ fuzzy_date.original }"
-
-puts "Short date:     #{ fuzzy_date.short       }"
-puts "Long date:      #{ fuzzy_date.long        }"
-puts "Full date:      #{ fuzzy_date.full        }"
-
-puts "Original date:  #{ fuzzy_date.original    }"
-puts "Year:           #{ fuzzy_date.year        }"
-puts "Month:          #{ fuzzy_date.month       }"
-puts "Day:            #{ fuzzy_date.day         }"
-puts "Month name:     #{ fuzzy_date.month_name  }"
-puts "Circa:          #{ fuzzy_date.circa       }"
-puts "Era:            #{ fuzzy_date.era         }"
+  puts "Short date:     #{ fuzzy_date.short       }"
+  puts "Long date:      #{ fuzzy_date.long        }"
+  puts "Full date:      #{ fuzzy_date.full        }"
+  puts "Year:           #{ fuzzy_date.year        }"
+  puts "Month:          #{ fuzzy_date.month       }"
+  puts "Day:            #{ fuzzy_date.day         }"
+  puts "Month name:     #{ fuzzy_date.month_name  }"
+  puts "Circa:          #{ fuzzy_date.circa       }"
+  puts "Era:            #{ fuzzy_date.era         }"
+  puts "Sortable:       #{ fuzzy_date.sortable    }"
+end

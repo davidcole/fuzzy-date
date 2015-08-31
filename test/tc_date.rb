@@ -8,6 +8,8 @@ require 'fuzzy-date'
 class DateTest < Test::Unit::TestCase
 
   def setup
+    future_date = Date.new( 10_000, 1, 1 )
+
     @test_dates = {
       '2010-04-05' => {
         :parsed_date => {
@@ -15,13 +17,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '2010-04-05',
-          :full       => 'Monday, April 5, 2010',
-          :long       => 'April 5, 2010',
+          :full       => 'Monday, 5 April 2010',
+          :long       => '5 April 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010-04-05',
           :short      => '4/5/2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -33,13 +36,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'BC',
           :fixed      => '2010-04-05',
-          :full       => 'Tuesday, April 5, 2010 BC',
-          :long       => 'April 5, 2010 BC',
+          :full       => 'Monday, 5 April 2010 BC',
+          :long       => '5 April 2010 BC',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010 04 05 BC',
           :short      => '4/5/2010 BC',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( -2010, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -51,13 +55,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'BCE',
           :fixed      => '2010-04-05',
-          :full       => 'Tuesday, April 5, 2010 BCE',
-          :long       => 'April 5, 2010 BCE',
+          :full       => 'Monday, 5 April 2010 BCE',
+          :long       => '5 April 2010 BCE',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010 04 05 BCE',
           :short      => '4/5/2010 BCE',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( -2010, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -69,13 +74,14 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => 'AD',
           :fixed      => '2010-04',
-          :full       => 'April, 2010',
-          :long       => 'April, 2010',
+          :full       => 'April 2010',
+          :long       => 'April 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '2010-04',
           :short      => '4/2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 4, 1 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -93,7 +99,8 @@ class DateTest < Test::Unit::TestCase
           :month_name => nil,
           :original   => '2010',
           :short      => '2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 1, 1 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -111,7 +118,8 @@ class DateTest < Test::Unit::TestCase
           :month_name => nil,
           :original   => '2010 BC',
           :short      => '2010 BC',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( -2010, 1, 1 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -123,13 +131,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '4-5-2010',
-          :full       => 'Monday, April 5, 2010',
-          :long       => 'April 5, 2010',
+          :full       => 'Monday, 5 April 2010',
+          :long       => '5 April 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/5/2010',
           :short      => '4/5/2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -141,13 +150,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 5,
           :era        => 'AD',
           :fixed      => '4-5-10',
-          :full       => 'Saturday, April 5, 0010',
-          :long       => 'April 5, 10',
+          :full       => 'Saturday, 5 April 0010',
+          :long       => '5 April 0010',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/5/10',
-          :short      => '4/5/10',
-          :year       => 10
+          :short      => '4/5/0010',
+          :year       => 10,
+          :sortable   => ( future_date - Date.new( 10, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -159,13 +169,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 4,
           :era        => 'AD',
           :fixed      => '4-5-2010',
-          :full       => 'Tuesday, May 4, 2010',
-          :long       => 'May 4, 2010',
+          :full       => 'Tuesday, 4 May 2010',
+          :long       => '4 May 2010',
           :month      => 5,
           :month_name => 'May',
           :original   => '4/5/2010',
           :short      => '5/4/2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 5, 4 ) ).to_i
         },
         :options => {
           :euro    => true
@@ -177,13 +188,14 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => 'AD',
           :fixed      => '4-2010',
-          :full       => 'April, 2010',
-          :long       => 'April, 2010',
+          :full       => 'April 2010',
+          :long       => 'April 2010',
           :month      => 4,
           :month_name => 'April',
           :original   => '4/2010',
           :short      => '4/2010',
-          :year       => 2010
+          :year       => 2010,
+          :sortable   => ( future_date - Date.new( 2010, 4, 1 ) ).to_i
         },
         :options => {
           :euro    => true
@@ -201,7 +213,8 @@ class DateTest < Test::Unit::TestCase
           :month_name => 'April',
           :original   => '5 April',
           :short      => '5-Apr',
-          :year       => nil
+          :year       => nil,
+          :sortable   => ( future_date - Date.new( -10_000, 4, 5 ) ).to_i
         },
         :options => {
           :euro    => false
@@ -213,13 +226,14 @@ class DateTest < Test::Unit::TestCase
           :day        => nil,
           :era        => "AD",
           :fixed      => "2015-June",
-          :full       => "June, 2015",
-          :long       => "June, 2015",
+          :full       => "June 2015",
+          :long       => "June 2015",
           :month      => 6,
           :month_name => "June",
           :original   => "2015 June",
           :short      => "6/2015",
-          :year       => 2015
+          :year       => 2015,
+          :sortable   => ( future_date - Date.new( 2015, 6, 1 ) ).to_i
         },
         :options    => {
           :euro    => false
@@ -231,13 +245,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 15,
           :era        => "AD",
           :fixed      => "2015-June-15",
-          :full       => "Monday, June 15, 2015",
-          :long       => "June 15, 2015",
+          :full       => "Monday, 15 June 2015",
+          :long       => "15 June 2015",
           :month      => 6,
           :month_name => "June",
           :original   => "2015 June 15",
           :short      => "6/15/2015",
-          :year       => 2015
+          :year       => 2015,
+          :sortable   => ( future_date - Date.new( 2015, 6, 15 ) ).to_i
         },
         :options    => {
           :euro    => false
@@ -249,13 +264,14 @@ class DateTest < Test::Unit::TestCase
           :day        => 10,
           :era        => "AD",
           :fixed      => "10-June-15",
-          :full       => "Monday, June 10, 0015",
-          :long       => "June 10, 15",
+          :full       => "Monday, 10 June 0015",
+          :long       => "10 June 0015",
           :month      => 6,
           :month_name => "June",
           :original   => "10 June 15",
-          :short      => "6/10/15",
-          :year       => 15
+          :short      => "6/10/0015",
+          :year       => 15,
+          :sortable   => ( future_date - Date.new( 15, 6, 10 ) ).to_i
         },
         :options    => {
           :euro    => false
