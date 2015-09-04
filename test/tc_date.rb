@@ -163,20 +163,20 @@ class DateTest < Test::Unit::TestCase
           :euro    => false
         }
       },
-      '4/5/2010' => {
+      '3/5/2010' => {
         :parsed_date => {
           :circa      => false,
-          :day        => 4,
+          :day        => 3,
           :era        => 'AD',
-          :fixed      => '4-5-2010',
-          :full       => 'Tuesday, 4 May 2010',
-          :long       => '4 May 2010',
+          :fixed      => '3-5-2010',
+          :full       => 'Monday, 3 May 2010',
+          :long       => '3 May 2010',
           :month      => 5,
           :month_name => 'May',
-          :original   => '4/5/2010',
-          :short      => '5/4/2010',
+          :original   => '3/5/2010',
+          :short      => '5/3/2010',
           :year       => 2010,
-          :sortable   => ( future_date - Date.new( 2010, 5, 4 ) ).to_i
+          :sortable   => ( future_date - Date.new( 2010, 5, 3 ) ).to_i
         },
         :options => {
           :euro    => true
@@ -274,6 +274,25 @@ class DateTest < Test::Unit::TestCase
           :sortable   => ( future_date - Date.new( 15, 6, 10 ) ).to_i
         },
         :options    => {
+          :euro    => false
+        }
+      },
+      '29 February 1836' => {
+        :parsed_date => {
+          :circa      => false,
+          :day        => 29,
+          :era        => 'AD',
+          :fixed      => '29-February-1836',
+          :full       => 'Monday, 29 February 1836',
+          :long       => '29 February 1836',
+          :month      => 2,
+          :month_name => 'February',
+          :original   => '29 February 1836',
+          :short      => '2/29/1836',
+          :year       => 1836,
+          :sortable   => ( future_date - Date.new( 1836, 2, 29 ) ).to_i
+        },
+        :options => {
           :euro    => false
         }
       }

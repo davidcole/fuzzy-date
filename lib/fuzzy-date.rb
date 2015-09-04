@@ -242,7 +242,7 @@ class FuzzyDate
                             'Dec' => 'December' }
 
     DAYS_IN_MONTH = { 1  => 31,
-                      2  => 28,
+                      2  => 29,
                       3  => 31,
                       4  => 30,
                       5  => 31,
