@@ -46,15 +46,18 @@ class FuzzyDate
       first_date, second_date = "d2", "d1"
     end
 
+    h["#{first_date}_era"] = (@era == "BC" || @era == "BCE") ? -1 : 1
     h["#{first_date}_year"]  = @year if @year
     h["#{first_date}_month"] = @month if @month
     h["#{first_date}_day"]   = @day if @day
 
+    h["#{second_date}_era"] = (o.era == "BC" || o.era == "BCE") ? -1 : 1
     h["#{second_date}_year"]  = o.year if o.year
     h["#{second_date}_month"] = o.month if o.month
     h["#{second_date}_day"]   = o.day if o.day
 
-    result = h['d1_year']  <=> h['d2_year']
+    result = h['d1_era']  <=> h['d2_era']
+    result = h['d1_year']  <=> h['d2_year']  if result == 0
     result = h['d1_month'] <=> h['d2_month'] if result == 0
     result = h['d1_day']   <=> h['d2_day']   if result == 0
 
