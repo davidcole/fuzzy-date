@@ -29,6 +29,35 @@ With fuzzy-date, when you parse an incomplete date, you'll be given an object of
 	puts "Circa:          #{ fuzzy_date.circa       }"
 	puts "Era:            #{ fuzzy_date.era         }"
 
+## Sorting:
+
+  The comparable implementation works largely as you would expect, though it takes a couple options:
+
+  * <code>reverse</code>
+
+    > When set to <code>true</code>, the sort order is reversed, prioritizing
+    > recent dates first. For example:
+    ```ruby
+      [FuzzyDate.parse('2015-12'), FuzzyDate.parse('2016-12')]
+        .sort { |a, b| a.<=> b, reverse: true }
+        .map(&:original)
+
+      # => ['2016-12', '2015-12']
+    ```
+
+  * <code>floaty</code>
+
+    > When set to <code>true</code>, vague dates "float" to the top, taking
+    > priority over more specific dates. For example:
+    ```ruby
+      [FuzzyDate.parse('2016-2-12'), FuzzyDate.parse('2016-2')]
+        .sort { |a, b| a.<=> b, floaty: true }
+        .map(&:original)
+
+
+      #=> ['2016-2', '2016-2-12']
+    ```
+
 ## Contributing
 
 If you'd like to hack on FuzzyDate - and we hope you do! - start by forking the repo on GitHub:
