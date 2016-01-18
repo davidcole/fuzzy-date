@@ -1,6 +1,8 @@
 require 'date'
 
 class FuzzyDate
+  include Comparable
+
   VERSION = '1.0.0'
 
   attr_reader :short, :full, :long, :original, :fixed, :year, :month, :day, :month_name, :circa, :era, :sortable
@@ -21,8 +23,7 @@ class FuzzyDate
       month_name: @month_name,
       original:   @original,
       short:      @short,
-      year:       @year,
-      sortable:   @sortable
+      year:       @year
     }
   end
 
@@ -32,6 +33,32 @@ class FuzzyDate
     day   = @day   || 1
 
     "#{ show_circa } #{ Date.new( year, month, day ).strftime( pattern ) } #{ show_era }".strip
+  end
+
+  def <=>( o, options = {} )
+    # When :float is true, date vagueness is prioritized.
+    h = Hash.new (options[:floaty]) ? 0 : Float::INFINITY
+
+    # When :reverse is true, dates are sorted in reverse chronology.
+    unless options[:reverse]
+      first_date, second_date = "d1", "d2"
+    else
+      first_date, second_date = "d2", "d1"
+    end
+
+    h["#{first_date}_year"]  = @year if @year
+    h["#{first_date}_month"] = @month if @month
+    h["#{first_date}_day"]   = @day if @day
+
+    h["#{second_date}_year"]  = o.year if o.year
+    h["#{second_date}_month"] = o.month if o.month
+    h["#{second_date}_day"]   = o.day if o.day
+
+    result = h['d1_year']  <=> h['d2_year']
+    result = h['d1_month'] <=> h['d2_month'] if result == 0
+    result = h['d1_day']   <=> h['d2_day']   if result == 0
+
+    result
   end
 
   private
@@ -157,22 +184,18 @@ class FuzzyDate
       @short    = "#{ show_circa } #{ @month }/#{ @day }/#{ year } #{ show_era }".strip
       @long     = "#{ show_circa } #{ @day } #{ @month_name } #{ year } #{ show_era }".strip
       @full     = "#{ show_circa } #{ Date.new( @year, @month, @day ).strftime( '%A, %-1d %B %Y' ) } #{ show_era }".strip
-      @sortable = ( future_date - Date.new( @year * ( bce? ? -1 : 1 ), @month, @day ) ).to_i
     elsif @year && @month
       @short    = "#{ show_circa } #{ @month }/#{ year } #{ show_era }".strip
       @long     = "#{ show_circa } #{ @month_name } #{ year } #{ show_era }".strip
       @full     = @long
-      @sortable = ( future_date - Date.new( @year * ( bce? ? -1 : 1 ), @month, 1 ) ).to_i
     elsif @month && @day
       @short    = "#{ show_circa } #{ @day }-#{ Variables::MONTH_ABBREVIATIONS.key( month_text ) || month_text }".strip
       @long     = "#{ show_circa } #{ @day } #{ month_name }".strip
       @full     = @long
-      @sortable = ( future_date - Date.new( -10_000, @month, @day ) ).to_i
     elsif year
       @short    = "#{ show_circa } #{ year } #{ show_era }".strip
       @long     = @short
       @full     = @long
-      @sortable = ( future_date - Date.new( @year * ( bce? ? -1 : 1 ), 1, 1 ) ).to_i
     end
 
   end
