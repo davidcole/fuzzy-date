@@ -40,9 +40,7 @@ With fuzzy-date, when you parse an incomplete date, you'll be given an object of
     ```ruby
       [FuzzyDate.parse('2015-12'), FuzzyDate.parse('2016-12')]
         .sort { |a, b| a.<=> b, reverse: true }
-        .map(&:original)
-
-      # => ['2016-12', '2015-12']
+        .map(&:original) # => ['2016-12', '2015-12']
     ```
 
   * <code>floaty</code>
@@ -52,10 +50,7 @@ With fuzzy-date, when you parse an incomplete date, you'll be given an object of
     ```ruby
       [FuzzyDate.parse('2016-2-12'), FuzzyDate.parse('2016-2')]
         .sort { |a, b| a.<=> b, floaty: true }
-        .map(&:original)
-
-
-      #=> ['2016-2', '2016-2-12']
+        .map(&:original) #=> ['2016-2', '2016-2-12']
     ```
 
 ## Contributing
