@@ -317,5 +317,95 @@ class DateTest < Test::Unit::TestCase
     end
   end
 
-end
+  def test_comparable
+    parsed_dates = @test_dates.keys.map { |date| FuzzyDate.parse date }
 
+    # standard sort
+    assert_equal([
+        "4/5/10",
+        "10 June 15",
+        "29 February 1836",
+        "3/5/2010",
+        "2010-04-05",
+        "2010 04 05 BC",
+        "4/5/2010",
+        "2010 04 05 BCE",
+        "4/2010",
+        "2010-04",
+        "2010",
+        "2010 BC",
+        "2015 June 15",
+        "2015 June",
+        "5 April"
+      ],
+      parsed_dates.sort.map(&:original),
+      "Standard sort failed."
+    )
+
+    # reverse sort
+    assert_equal([
+        "5 April",
+        "2015 June",
+        "2015 June 15",
+        "2010 BC",
+        "2010",
+        "4/2010",
+        "2010-04",
+        "4/5/2010",
+        "2010-04-05",
+        "2010 04 05 BCE",
+        "2010 04 05 BC",
+        "3/5/2010",
+        "29 February 1836",
+        "10 June 15",
+        "4/5/10"
+      ],
+      parsed_dates.sort { |d1, d2| d1.<=> d2, reverse: true }.map(&:original),
+      "Reverse sort failed."
+    )
+
+    # floaty sort
+    assert_equal([
+        "5 April",
+        "4/5/10",
+        "10 June 15",
+        "29 February 1836",
+        "2010",
+        "2010 BC",
+        "3/5/2010",
+        "2010-04",
+        "4/2010",
+        "4/5/2010",
+        "2010 04 05 BCE",
+        "2010 04 05 BC",
+        "2010-04-05",
+        "2015 June",
+        "2015 June 15"
+      ],
+      parsed_dates.sort { |d1, d2| d1.<=> d2, floaty: true }.map(&:original),
+      "Floaty sort failed."
+    )
+
+    # reverse floaty sort
+    assert_equal([
+        "2015 June 15",
+        "2015 June",
+        "2010 04 05 BCE",
+        "2010 04 05 BC",
+        "4/5/2010",
+        "2010-04-05",
+        "4/2010",
+        "2010-04",
+        "3/5/2010",
+        "2010",
+        "2010 BC",
+        "29 February 1836",
+        "10 June 15",
+        "4/5/10",
+        "5 April"
+      ],
+      parsed_dates.sort { |d1, d2| d1.<=> d2, reverse: true, floaty: true }.map(&:original),
+      "Reverse floaty sort failed."
+    )
+  end
+end
